@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <link rel="stylesheet" href="{% static "css/dist/styles.css" %}">
+</head>
+
+<body>
+
+    <section class="w-full h-screen flex items-center justify-center">
+        <form method="POST" class="flex flex-col items-center justify-center rounded-sm border-2 border-slate-900 p-4 bg-white relative" style="width: 25rem;">
+
+            {% csrf_token %}
+
+            {% if error %}
+            <p id="login_err" class="py-2 bg-white border-2 border-red-600 text-center text-red-600 -top-14 w-full absolute rounded-sm">
+                {{ error }}
+            </p>
+            {% endif %}
+
+            <h1 class="text-2xl font-monty mb-3 text-slate-900">Verify OTP</h1>
+
+            <hr class="border w-9/10 my-2 opacity-10">
+
+            <div class="w-full flex items-center justify-around mt-4">
+            {% for i in "1234" %}
+                <input type="text"
+                    name="otp{{ forloop.counter }}"
+                    maxlength="1"
+                    class="otp-input border-2 border-slate-900 w-14 h-14 focus:outline-none text-xl text-slate-900 text-center rounded-sm"
+                    oninput="handleInput(this, {{ forloop.counter0 }})"
+                    onkeydown="handleKeyDown(event, {{ forloop.counter0 }})" required>
+            {% endfor %}
+            </div>
+
+            <button type="submit" class="w-9/10 mt-8 py-3 rounded-sm text-white bg-slate-900 text-secondary transition outline-none  relative overflow-hidden flex items-center justify-center group cursor-pointer">
+                <span class="w-8 h-60 bg-white absolute rotate-45 blur-md opacity-60 transition-all -translate-x-60 group-hover:translate-x-60 duration-300"></span>
+                Verify
+            </button>
+        </form>
+        </section>
+
+        <script>
+        const inputs = document.querySelectorAll(".otp-input");
+
+        function handleInput(element, index) {
+            element.value = element.value.replace(/[^0-9]/g, '');
+            if (element.value && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+            }
+        }
+
+        function handleKeyDown(e, index) {
+            if (e.key === "Backspace" && !e.target.value && index > 0) {
+            inputs[index - 1].focus();
+            }
+        }
+        </script>
+    
+</body>
+</html>
+

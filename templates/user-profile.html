@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Shop - TrickTrend{% endblock title %}
+
+{% block content %}
+
+<section class="text-cyan-200 mt-4 p-4 flex flex-col items-center justify-center">
+    <div class="w-full flex flex-col items-center justify-center text-cyan-200">
+        {{request.user.username}}
+        {{request.user.email}}
+    </div>
+    <a class="px-8 py-3 rounded-sm bg-ternary text-primary font-poppins mt-4" href="/authentication/user-logout">Logout</a>
+</section>
+
+{% endblock content %}

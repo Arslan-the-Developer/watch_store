@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Shop - TrickTrend{% endblock title %}
+
+{% block content %}
+
+<section class="flex flex-col items-start justify-start px-14 max-sm:px-2">
+    <div class="w-full h-60 flex flex-col items-center justify-center text-ternary font-poppins">
+
+        <h2 class="text-3xl max-sm:text-2xl font-semibold capitalize">
+            {{name}}'s Luxury
+        </h2>
+        <p class="mt-2 w-3/4 text-center">Shop Best Men's Luxury Watches To Express Your True Vibe & Wear The Best</p>
+
+    </div>
+    <div class="flex flex-wrap items-start justify-start w-full">
+
+        {% for product, variants in products.items %}
+        
+            <div class="w-65 h-80 bg-ternary flex flex-col items-start justify-start rounded-sm outline-2 transition-all duration-300 outline-primary hover:outline-[#F5DEB3] outline-offset-4 mt-2 overflow-hidden p-3 relative ml-8 max-sm:w-58 max-sm:ml-2 max-sm:outline-none">
+
+                <a href="/product-details/{{product.id}}" class="h-[60%] flex items-center justify-center w-full group">
+
+                    <img style="z-index : 2;" class="w-full h-full object-contain object-center transition-all opacity-100 duration-300 scale-100 group-hover:opacity-0 group-hover:scale-110" src="{% static "img/w3.png" %}" alt="">
+                    
+                    <img style="z-index : 1;" class="w-full h-full object-contain object-center absolute transition-all duration-300 scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100" src="{% static "img/watch.png" %}" alt="">
+
+                </a>
+                <div class="h-[40%] flex flex-col items-center justify-center w-full pt-2 font-poppins">
+
+                    <h1 class="text-xl max-sm:text-base font-semibold">{{product.product_name}}</h1>
+                    
+                    {% for variant in variants %}
+                        {% if forloop.first %}
+                            <h3 class="text-xl mt-1 max-sm:text-base tracking-wide mb-2">{{variant.variant_price}}/-</h3>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if request.user.is_authenticated %}
+
+                        {% if product in cart_prods %}
+
+                            <a href='/user-cart' class="w-full py-3 rounded-sm bg-primary text-ternary flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="injected-svg" data-src="https://cdn.hugeicons.com/icons/shopping-basket-02-solid-standard.svg?v=2.0" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" color="#f5deb3">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 3C10.067 3 8.5 4.567 8.5 6.5V8H6.5V6.5C6.5 3.46243 8.96243 1 12 1C15.0376 1 17.5 3.46243 17.5 6.5V8H15.5V6.5C15.5 4.567 13.933 3 12 3Z" fill="#f5deb3"></path>
+                                    <path d="M7.2346 23C5.74165 23 4.47588 21.9022 4.26475 20.4243L4.06128 19H19.9387L19.7353 20.4243C19.5241 21.9022 18.2584 23 16.7654 23H7.2346Z" fill="#f5deb3"></path>
+                                    <path d="M20.2244 17H3.77557L2.51006 8.14142C2.46906 7.85444 2.55462 7.5638 2.74455 7.3448C2.93449 7.1258 3.21012 7 3.50001 7H20.5C20.7899 7 21.0655 7.1258 21.2555 7.3448C21.4454 7.5638 21.531 7.85444 21.49 8.14142L20.2244 17Z" fill="#f5deb3"></path>
+                                </svg>
+                            </a>
+
+                        {% else %}
+
+                        <button onclick="AddProductToCart(event, '{{product.id}}')" class="w-full py-2 rounded-sm bg-primary text-ternary flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#f5deb3" fill="none">
+                                <path d="M4.34085 16.8781L3.17786 9.93557C2.98869 8.8063 2.89411 8.24167 3.18537 7.87083C3.47662 7.5 4.01468 7.5 5.09079 7.5H18.9092C19.9853 7.5 20.5234 7.5 20.8146 7.87083C21.1059 8.24167 21.0113 8.8063 20.8221 9.93557L19.6591 16.8781C19.249 19.3264 19.044 20.5505 18.2319 21.2752C17.4199 22 16.2534 22 13.9204 22H10.0796C7.74664 22 6.58014 22 5.76809 21.2752C4.95603 20.5505 4.75097 19.3264 4.34085 16.8781Z" stroke="#f5deb3" stroke-width="1.5"></path>
+                                <path d="M7 7.5V7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7V7.5" stroke="#f5deb3" stroke-width="1.5"></path>
+                                <path d="M4.5 17.5H19.5" stroke="#f5deb3" stroke-width="1.5"></path>
+                            </svg>
+                        </button>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <a href='/user-cart' class="w-full py-2 rounded-sm bg-primary text-ternary flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#f5deb3" fill="none">
+                                <path d="M4.34085 16.8781L3.17786 9.93557C2.98869 8.8063 2.89411 8.24167 3.18537 7.87083C3.47662 7.5 4.01468 7.5 5.09079 7.5H18.9092C19.9853 7.5 20.5234 7.5 20.8146 7.87083C21.1059 8.24167 21.0113 8.8063 20.8221 9.93557L19.6591 16.8781C19.249 19.3264 19.044 20.5505 18.2319 21.2752C17.4199 22 16.2534 22 13.9204 22H10.0796C7.74664 22 6.58014 22 5.76809 21.2752C4.95603 20.5505 4.75097 19.3264 4.34085 16.8781Z" stroke="#f5deb3" stroke-width="1.5"></path>
+                                <path d="M7 7.5V7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7V7.5" stroke="#f5deb3" stroke-width="1.5"></path>
+                                <path d="M4.5 17.5H19.5" stroke="#f5deb3" stroke-width="1.5"></path>
+                            </svg>
+                        </a>
+
+                    {% endif %}
+
+                </div>
+            </div>
+        
+        {% endfor %}
+
+    </div>
+    <h1>{{name}}</h1>
+</section>
+
+{% endblock content %}

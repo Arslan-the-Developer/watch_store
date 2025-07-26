@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block title %}{{ product.product_name }}{% endblock %}
+
+{% block content %}
+<section class="w-full flex flex-col items-center px-8 py-12 text-ternary font-poppins">
+  <div class="w-full flex items-start justify-center max-md:flex-col max-md:items-center">
+    
+    <!-- LEFT HALF: Images -->
+    <div class="flex flex-col items-start mr-8 max-sm:w-full max-md:mr-0">
+      <!-- Main Image -->
+      <div id="main-image" class="w-full h-96 flex items-center justify-center rounded-lg overflow-hidden mb-4">
+        {% with first_variant=variants.0 %}
+          {% with first_image=first_variant.variant_images.all.0 %}
+            {% if first_image %}
+              <img src="{{ first_image.variant_image.url }}" alt="" class="object-contain w-full h-full rounded-sm">
+            {% else %}
+              <span class="text-gray-500">No Image</span>
+            {% endif %}
+          {% endwith %}
+        {% endwith %}
+      </div>
+      <!-- Thumbnails -->
+      <div id="thumbnails" class="w-full flex items-center justify-between overflow-x-auto mb-4">
+        {% for img in variants.0.variant_images.all %}
+          <img src="{{ img.variant_image.url }}"
+               data-url="{{ img.variant_image.url }}"
+               alt="{{ img.variant.variant_name }} thumbnail"
+               class="thumb w-20 h-20 object-cover rounded">
+        {% empty %}
+          <span class="italic text-gray-500">No thumbnails</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- RIGHT HALF: Details & Actions -->
+    <div class="w-100 flex flex-col  justify-start ml-8 max-md:w-full max-md:ml-0 max-md:mt-3">
+      <div>
+        <h1 class="text-3xl font-semibold mb-2">{{ product.product_name }}</h1>
+        <!-- Price display will update when variant changes -->
+        <p id="price" class="text-2xl text-white mb-5 mt-5">
+          {{ variants.0.variant_price }}
+        </p>
+
+        <!-- Variant selector as buttons -->
+        <div id="variant-buttons" class="flex flex-col gap-2 mb-6">
+            <h3>Variants</h3>
+          <div class="mt-1">
+            {% for variant in variants %}
+                <button type="button"
+                        data-variant-id="{{ variant.id }}"
+                        data-price="{{ variant.variant_price }}"
+                        class="variant-btn px-3 py-2 border rounded-sm {{ forloop.first|yesno:'bg-ternary text-primary text-gray-700' }}">
+                {{ variant.variant_name }}
+                </button>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-6">
+          <h2 class="font-medium mb-1">Description</h2>
+          <p class="text-white">{{ product.product_description }}</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col">
+        <div class="flex items-center justify-center">
+            <button class="flex-1 py-3 bg-ternary text-primary rounded-sm">
+            Add to Cart
+            </button>
+            <button class="flex-1 py-3 bg-ternary text-primary rounded-sm ml-2">
+            Add to Wishlist
+            </button>
+        </div>
+        <button class="flex-1 py-3 bg-ternary text-primary rounded-sm mt-3">
+          Buy Now
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Inline map of variant IDs to their image URLs
+  const variantImages = {
+    {% for v in variants %}
+      "{{ v.id }}": [
+        {% for img in v.variant_images.all %}
+          "{{ img.variant_image.url }}"{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ]{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  };
+
+  const priceEl      = document.getElementById('price');
+  const mainImageDiv = document.getElementById('main-image');
+  const thumbsDiv    = document.getElementById('thumbnails');
+  const btnContainer = document.getElementById('variant-buttons');
+
+  // Function to display given variant
+  function displayVariant(variantId, price) {
+    // Update active button styling
+    btnContainer.querySelectorAll('.variant-btn').forEach(btn => {
+      btn.classList.toggle('bg-ternary', btn.dataset.variantId === variantId);
+      btn.classList.toggle('text-primary', btn.dataset.variantId === variantId);
+      btn.classList.toggle('border-ternary', btn.dataset.variantId !== variantId);
+      btn.classList.toggle('text-ternary', btn.dataset.variantId !== variantId);
+    });
+    // Update price
+    priceEl.textContent = price + '/-';
+
+    // Update main image and thumbnails
+    const urls = variantImages[variantId] || [];
+    if (urls.length) {
+      mainImageDiv.innerHTML = `<img src="${urls[0]}" class="object-contain w-full h-full">`;
+      thumbsDiv.innerHTML = urls.map(url =>
+        `<img src="${url}" data-url="${url}" class="thumb w-20 h-20 object-cover rounded-sm cursor-pointer border-2 border-ternary ">`
+      ).join('');
+    } else {
+      mainImageDiv.innerHTML = `<span class="text-gray-500">No Image</span>`;
+      thumbsDiv.innerHTML = `<span class="italic text-gray-500">No thumbnails</span>`;
+    }
+  }
+
+  // Handle variant button clicks
+  btnContainer.addEventListener('click', e => {
+    const btn = e.target.closest('.variant-btn');
+    if (!btn) return;
+    displayVariant(btn.dataset.variantId, btn.dataset.price);
+  });
+
+  // Handle thumbnail clicks (event delegation)
+  thumbsDiv.addEventListener('click', e => {
+    const img = e.target.closest('img.thumb');
+    if (!img) return;
+    mainImageDiv.innerHTML = `<img src="${img.dataset.url}" class="object-contain w-full h-full">`;
+  });
+
+  // Initial render using first variant
+  const firstBtn = btnContainer.querySelector('.variant-btn');
+  if (firstBtn) {
+    displayVariant(firstBtn.dataset.variantId, firstBtn.dataset.price);
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Homepage{% endblock title %}
+
+
+{% block content %}
+
+<section class="w-full h-140 bg-priamry mt-3 px-6 py-2 flex items-center justify-center max-md:py-0">
+
+    <div class="h-full flex flex-col items-start justify-center w-[50%] max-md:items-center max-md:w-full" style="z-index: 2;">
+
+        <h1 class="font-poppins text-4xl text-ternary font-semibold uppercase">Wear Your Legacy.</h1>
+
+        <h4 class="text-xl font-poppins font-extralight text-ternary mt-5 uppercase">Timeless Elegance, Modern Precision</h4>
+        
+        <h4 class="text-xl font-poppins font-extralight text-ternary mt-3 uppercase w-95 max-md:text-center max-md:w-100">Express Your True Self — In the Language of Luxury and Legacy</h4>
+
+        <a class="px-5 py-3 bg-ternary text-primary font-poppins flex items-center justify-center mt-5 rounded-sm group relative overflow-hidden outline-2 outline-[#1a1a1a] transition-all duration-300 hover:outline-[#F5DEB3] outline-offset-4" href="/shop/collections">
+          Explore Collections
+          <span class="bg-white w-15 h-100 absolute blur-lg opacity-80 rotate-45 transition-all -translate-x-42 group-hover:translate-x-42 duration-300"></span>
+        </a>
+
+    </div>
+
+    <div class="h-full flex items-center justify-center max-md:absolute max-md:opacity-40" style="z-index: 1;">
+      <div class="w-100 h-100 rounded-full flex items-center justify-center overflow-hidden relative max-md:w-110 max-md:h-110">
+
+        <div class="w-full h-full absolute" style="background: radial-gradient(circle,rgba(0, 0, 0, 0) 50%, rgba(26, 26, 26, 1) 70%); z-index: 5;"></div>
+
+          <div class="swiper_2 w-full h-full overflow-hidden">
+            <!-- Slides wrapper: no flex/justify classes here! -->
+            <div class="swiper-wrapper w-full h-full">
+              <!-- Each slide can be a flex container if you want to center its own content -->
+              <div class="w-full h-full swiper-slide flex items-center justify-center bg-light overflow-hidden">
+                <img class="object-cover object-center w-100 h-100 max-md:w-110 max-md:h-110 border-none" src="https://images.unsplash.com/photo-1681492940051-f9c9b15f7a16?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDY5fHx8ZW58MHx8fHx8" alt="">
+              </div>
+              <div class="swiper-slide flex items-center justify-center bg-pink-700">
+                <img class="object-cover object-center w-100 h-100 max-md:w-110 max-md:h-110 border-none outline-none" src="https://images.unsplash.com/photo-1611353384046-8a02bac0f14d?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+              </div>
+              <div class="swiper-slide flex items-center justify-center bg-pink-700">
+                <img class="object-cover object-center w-100 h-100 max-md:w-110 max-md:h-110 border-none outline-none" src="https://images.unsplash.com/photo-1700471299386-7a84be5cd423?q=80&w=752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+              </div>
+              <div class="swiper-slide flex items-center justify-center bg-pink-700">
+                <img class="object-cover object-center w-100 h-100 max-md:w-110 max-md:h-110 border-none outline-none" src="https://images.unsplash.com/photo-1629581073069-7bf0ec7bb37f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDZ8fHxlbnwwfHx8fHw%3D" alt="">
+              </div>
+              <div class="swiper-slide flex items-center justify-center bg-pink-700">
+                <img class="object-cover object-center w-100 h-100 max-md:w-110 max-md:h-110 border-none outline-none" src="https://images.unsplash.com/photo-1609684963134-b70db0a3c8fe?q=80&w=719&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
+              </div>
+            </div>
+
+          </div>
+
+      </div>
+    </div>
+
+    
+</section>
+
+<section class="w-full h-80 px-16 flex flex-col items-center justify-center">
+  <h2 >New In</h2>
+  <div class="swiper w-full h-full overflow-hidden">
+    <!-- Slides wrapper: no flex/justify classes here! -->
+    <div class="swiper-wrapper w-full h-full">
+
+      {% for product, variants in slider_products.items %}
+      
+        <div class="swiper-slide flex items-center justify-center bg-ternary rounded-sm p-3">
+          <a href="/product-details/{{product.id}}" class="w-full h-full flex flex-col items-start justify-start">
+
+            <div class="w-full h-[70%] flex items-center justify-center relative overflow-hidden group">
+
+              <img style="z-index : 2;" class="w-full h-full object-contain object-center transition-all duration-300 opacity-100 scale-100 group-hover:scale-110 group-hover:opacity-0" src="{% static "img/w3.png" %}" alt="">
+              
+              <img style="z-index : 1;" class="w-full h-full object-contain object-center absolute transition-all duration-300 opacity-0 scale-90 group-hover:scale-100 group-hover:opacity-100" src="{% static "img/watch 2.png" %}" alt="">
+
+            </div>
+            <div class="w-full h-[30%] flex flex-col items-center justify-center font-poppins text-xl">
+              <h2 class="font-semibold mt-2">{{product.product_name}}</h2>
+
+              {% for variant in variants %}
+                    {% if forloop.first %}
+                        <h3 class="text-xl max-sm:text-base tracking-wide mt-2">{{variant.variant_price}}/-</h3>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+          </a>
+        </div>
+
+      {% endfor %}
+
+    </div>
+
+  </div>
+</section>
+
+
+{% endblock content %}
+
+
+{% block link_js %}
+
+<script src="{% static "js/index.js" %}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const swiper = new Swiper(".swiper", {
+      // Optional parameters
+      direction: "horizontal", // or 'vertical'
+      loop: true,
+      slidesPerView : 1,
+      spaceBetween : 10,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      breakpoints: {
+        420: {
+          slidesPerView: 1,
+        },
+        580: {
+          slidesPerView: 2,
+        },
+        768: {
+          slidesPerView: 3,
+        },
+        1024: {
+          slidesPerView: 4,
+        },
+        1280: {
+          slidesPerView: 5,
+        },
+      },
+      parallax : true,
+
+    });
+
+
+    const swiper_2 = new Swiper(".swiper_2", {
+      // Optional parameters
+      direction: "horizontal", // or 'vertical'
+      loop: true,
+      slidesPerView : 1,
+      spaceBetween : 0,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      effect : 'fade',
+      crossFade : true,
+    });
+  });
+</script>
+
+{% endblock link_js %}

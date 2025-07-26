@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrickTrend - Login</title>
+    <link rel="stylesheet" href="{% static "css/dist/styles.css" %}">
+</head>
+
+<body class="w-full h-screen flex items-center justify-center relative overflow-hidden">
+
+    <form method="post" class="w-110 bg-white border-2 border-slate-900 rounded-sm p-4 flex flex-col items-center justify-start relative" style="z-index: 1;">
+        
+        {% csrf_token %}
+
+        {% if error %}
+        <p class="py-2 bg-white border-2 border-red-600 text-center text-red-600 -top-14 w-full absolute">
+            {{ error }}
+        </p>
+        {% endif %}
+
+
+        <a href="/" class="absolute top-6 left-8 transition-all hover:scale-90">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#ffffff" fill="none">
+                <path d="M3.99982 11.9998L19.9998 11.9998" stroke="#141B34" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8.99963 17C8.99963 17 3.99968 13.3176 3.99966 12C3.99965 10.6824 8.99966 7 8.99966 7" stroke="#141B34" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+
+        <h3 class="text-2xl">Login</h3>
+
+        <hr class="w-9/10 border border-slate-900 rounded-full opacity-10 my-8">
+
+        <div class="w-9/10 flex flex-col items-start justify-start">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="w-full px-3 py-2 placeholder:text-slate-900 border-2 border-slate-900 mt-2 rounded-sm outline-none" required>
+        </div>
+        
+        <div class="w-9/10 flex flex-col items-start justify-start mt-6">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="w-full px-3 py-2 placeholder:text-slate-900 border-2 border-slate-900 mt-2 rounded-sm outline-none" required>
+        </div>
+
+        <button type="submit" class="w-9/10 bg-slate-900 mt-10 text-white py-3 rounded-sm relative overflow-hidden flex items-center justify-center group cursor-pointer">
+            Login
+            <span class="w-8 h-60 bg-white absolute rotate-45 blur-md opacity-60 transition-all -translate-x-60 group-hover:translate-x-60 duration-300"></span>
+        </button>
+
+        <hr class="w-9/10 border border-slate-900 rounded-full opacity-10 mt-8 mb-6">
+
+        <p class="mb-2">Haven't Joined Us Yet? No Worries. Just <a href="/authentication/user-register" class="text-slate-600 underline">Register</a></p>
+
+    </form>
+
+</body>
+</html>
