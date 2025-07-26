@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/global.css" %}">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Buy Now</title>
+</head>
+<body>
+
+    <section class="w-full h-screen flex items-center justify-center bg-primary font-poppins">
+
+        <form method="POST" class="w-110 rounded-sm flex flex-col items-start justify-start text-white">
+
+
+            <h2 class="font-semibold text-2xl">Contact</h2>
+            <input id="name" type="email" class="w-full py-3 px-4 mt-4 border-2 border-white rounded-sm outline-none" value="{{request.user.email}}">
+
+            <h2 class="font-semibold text-2xl mt-8">Delivery</h2>
+            <input id="name" type="text" class="w-full py-3 px-4 mt-4 border-2 border-white rounded-sm outline-none placeholder:text-white" placeholder="Name">
+            <textarea class="w-full py-3 px-4 mt-6 border-2 border-white rounded-sm outline-none placeholder:text-white resize-none h-30" placeholder="Address"></textarea>
+
+            <div class="w-full flex items-center justify-between mt-6">
+                <input id="name" type="text" class="w-[49%] py-3 px-4 border-2 border-white rounded-sm outline-none placeholder:text-white" placeholder="City">
+                <input id="name" type="text" class="w-[49%] py-3 px-4 border-2 border-white rounded-sm outline-none placeholder:text-white" placeholder="Postal Code">
+            </div>
+
+            <input id="name" type="text" class="w-full py-3 px-4 mt-6 border-2 border-white rounded-sm outline-none placeholder:text-white" placeholder="Phone">
+
+
+            <h2 class="font-semibold text-2xl mt-8">Payment</h2>
+            <button type="submit" class="w-full py-3 bg-white text-primary mt-3 rounded-sm cursor-pointer transition-all hover:bg-red-600">Pay With Jazz Cash</button>
+
+
+        </form>
+
+        <hr class="border h-1/2 border-white mx-10">
+
+        <div class="w-110 flex flex-col items-start justify-start">
+            <div class="w-full flex items-start justify-start">
+
+                <img src="" alt="">
+
+            </div>
+        </div>
+
+
+
+    </section>
+    
+</body>
+</html>

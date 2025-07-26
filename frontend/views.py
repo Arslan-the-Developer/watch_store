@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Product, ProductVariant, CartItem, UserWishlist
+from .models import Product, ProductVariant, CartItem, UserWishlist, UserCart, UserOrder, UserOrderItem
 from authentication.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -36,9 +36,26 @@ def ShopCategoryPageView(request, category_name):
     modified_cat_name = str(category_name)[0].upper()
 
 
-    cart_products = [i.product for i in request.user.user_cart.cart_items.all()] if request.user.is_authenticated else "No Authenticated"
+    if request.user.is_authenticated:
 
-    wishlist_products = [i for i in request.user.user_wishlist.products.all()] if request.user.is_authenticated else "No Authenticated"
+        cart, _ = UserCart.objects.get_or_create(user=request.user)
+    
+        cart_products = [i.product for i in cart.cart_items.all()] 
+    
+    else : 
+
+        cart_products = "No Authenticated"
+
+
+    if request.user.is_authenticated:
+
+        wishlist, _ = UserWishlist.objects.get_or_create(user=request.user)
+    
+        wishlist_products = [i for i in wishlist.products.all()]
+    
+    else:
+
+        wishlist_products = "No Authenticated"
 
 
     match modified_cat_name:
@@ -73,15 +90,44 @@ def ShopCategoryPageView(request, category_name):
 
 def ProductDetailsView(request, product_id):
 
+    if request.user.is_authenticated:
+
+        cart, _ = UserCart.objects.get_or_create(user=request.user)
+    
+        cart_products = [i.product for i in cart.cart_items.all()]
+    
+    else : 
+
+        cart_products = "No Authenticated"
+
+
+    if request.user.is_authenticated:
+
+        wishlist, _ = UserWishlist.objects.get_or_create(user=request.user)
+    
+        wishlist_products = [i for i in wishlist.products.all()]
+    
+    else:
+
+        wishlist_products = "No Authenticated"
+
 
     product = Product.objects.get(id=product_id)
 
     product_variants = ProductVariant.objects.filter(product=product)
 
 
-    return render(request, 'product-details.html', {'product' : product, 'variants' : product_variants})
+    return render(request, 'product-details.html', {'product' : product, 'variants' : product_variants, 'cart_prods' : cart_products, 'wishlist_prods' : wishlist_products})
 
 
+
+
+@login_required(login_url='/authentication/user-login')
+def BuyNowView(request, product_id):
+
+    product = Product.objects.get(id=product_id)
+
+    return render(request, 'buy-now.html', {'product' : product})
 
 
 

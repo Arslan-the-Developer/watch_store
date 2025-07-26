@@ -13,6 +13,8 @@ urlpatterns = [
     path('search/<str:search_query>', views.SearchPageView),
     
     path('product-details/<str:product_id>', views.ProductDetailsView),
+    
+    path('buy-now/<str:product_id>', views.BuyNowView),
 
     path('user-profile', views.UserProfileView),
     
